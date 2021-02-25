@@ -1,6 +1,6 @@
 export interface ArticleListRequest {
   sortBy?: string;
-  order?: "asc" | "desc";
+  order?: 'asc' | 'desc';
   page?: number;
   limit?: number;
   search?: string;

@@ -6,13 +6,13 @@ import {
   OnChanges,
   OnInit,
   Output,
-} from "@angular/core";
-import { Article } from "src/app/core/models/articles.model";
+} from '@angular/core';
+import { Article } from 'src/app/core/models/articles.model';
 
 @Component({
-  selector: "app-articles-container",
-  templateUrl: "./articles-container.component.html",
-  styleUrls: ["./articles-container.component.scss"],
+  selector: 'app-articles-container',
+  templateUrl: './articles-container.component.html',
+  styleUrls: ['./articles-container.component.scss'],
 })
 export class ArticlesContainerComponent implements OnInit, OnChanges {
   @Input() articles: Article[] = [];

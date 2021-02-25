@@ -1,9 +1,9 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
-  selector: "app-dropdown-option",
-  templateUrl: "./dropdown-option.component.html",
-  styleUrls: ["./dropdown-option.component.scss"],
+  selector: 'app-dropdown-option',
+  templateUrl: './dropdown-option.component.html',
+  styleUrls: ['./dropdown-option.component.scss'],
 })
 export class DropdownOptionComponent implements OnInit {
   @Output() selectOption = new EventEmitter<any>();

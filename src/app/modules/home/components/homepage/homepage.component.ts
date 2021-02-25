@@ -1,33 +1,33 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
-import { Article } from "src/app/core/models/articles.model";
-import { HomeService } from "src/app/core/services/home.service";
-import { debounceTime, distinctUntilChanged, map } from "rxjs/operators";
-import { fromEvent, Subject } from "rxjs";
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Article } from 'src/app/core/models/articles.model';
+import { HomeService } from 'src/app/core/services/home.service';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { fromEvent, Subject } from 'rxjs';
 
 @Component({
-  selector: "app-homepage",
-  templateUrl: "./homepage.component.html",
-  styleUrls: ["./homepage.component.scss"],
+  selector: 'app-homepage',
+  templateUrl: './homepage.component.html',
+  styleUrls: ['./homepage.component.scss'],
 })
 export class HomepageComponent implements OnInit, AfterViewInit {
-  @ViewChild("searchBox") searchBox;
+  @ViewChild('searchBox') searchBox;
   articles: Article[];
   selectedArticle;
   order;
   sortBy;
   sortArticleOptions = [
-    { name: "Title", value: "title" },
-    { name: "Created At", value: "createAt" },
+    { name: 'Title', value: 'title' },
+    { name: 'Created At', value: 'createAt' },
   ];
   searchArticleOptions = [
-    { name: "Title", value: "title" },
-    { name: "Content", value: "content" },
-    { name: "Default", value: "search" },
+    { name: 'Title', value: 'title' },
+    { name: 'Content', value: 'content' },
+    { name: 'Default', value: 'search' },
   ];
   selectedSortOption;
   selectedSearchOption;
   searchArticle$ = new Subject();
-  keyword = "";
+  keyword = '';
   constructor(private homeService: HomeService) {}
 
   ngOnInit() {
@@ -77,7 +77,7 @@ export class HomepageComponent implements OnInit, AfterViewInit {
   }
 
   private initSearchBox() {
-    fromEvent(this.searchBox.nativeElement, "keyup")
+    fromEvent(this.searchBox.nativeElement, 'keyup')
       .pipe(
         map((event: any) => {
           return event.target.value.trim();

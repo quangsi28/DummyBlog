@@ -1,14 +1,14 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
   HttpErrorResponse,
-} from "@angular/common/http";
-import { Observable, throwError } from "rxjs";
-import { catchError } from "rxjs/operators";
-import { HttpCode } from "../utils/http-code.constants";
+} from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { HttpCode } from '../utils/http-code.constants';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
@@ -29,16 +29,16 @@ export class HttpErrorInterceptor implements HttpInterceptor {
   handleApiErrors(error: HttpErrorResponse) {
     switch (error.status) {
       case HttpCode.NotFound:
-        alert("Server return not found");
+        alert('Server return not found');
         return;
       case HttpCode.ServerError:
-        alert("Internal server error");
+        alert('Internal server error');
         return;
       case HttpCode.TooManyRequests:
-        alert("Calm down!! You are spamming requests");
+        alert('Calm down!! You are spamming requests');
         return;
       default:
-        alert("Got error from API");
+        alert('Got error from API');
         return;
     }
   }
