@@ -1,0 +1,11 @@
+<ng-container *ngIf="article">
+  <div class="cover-container">
+    <img [src]='article.image'>
+  </div>
+  <section class="detail-container">
+    <p class="badge badge-primary rounded-pill bg-secondary">Create at {{article.createdAt | date: 'hh:mm
+      dd/MM/yyyy'}}</p>
+    <h2>{{article.title}}</h2>
+    <p>{{article.content}}</p>
+  </section>
+</ng-container>

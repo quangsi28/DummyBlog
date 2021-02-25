@@ -1,0 +1,33 @@
+<div class="d-flex flex-row p-3">
+  <app-dropdown [selectedOption]="selectedSortOption" [placeholder]="selectedSortOption?.name || 'Sort by'"
+    (selectOption)="onSortArticle($event)">
+    <app-dropdown-option *ngFor="let option of sortArticleOptions" [value]="option"
+      [selected]="selectedSortOption?.value === option.value" (selectOption)="onSortArticle($event)">{{option.name}}
+    </app-dropdown-option>
+  </app-dropdown>
+  <div class="input-group">
+    <input #searchBox type="text" aria-label="Search" class="form-control ml-3" placeholder="Search...">
+    <div class="input-group-append">
+      <app-dropdown [selectedOption]="selectedSearchOption" [placeholder]="selectedSearchOption?.name || 'by'"
+        (selectOption)="onSortArticle($event)" [style]="'outline'">
+        <app-dropdown-option *ngFor="let searchOption of searchArticleOptions" [value]="searchOption"
+          [selected]="selectedSearchOption?.value === searchOption.value" (selectOption)="onSelectSearchOption($event)">
+          {{searchOption.name}}
+        </app-dropdown-option>
+      </app-dropdown>
+    </div>
+  </div>
+
+</div>
+<div class="d-flex flex-row flex-fill overflow-hidden">
+  <app-articles-container class="col" *ngIf="articles" [articles]="articles" (selectArticle)="onSelectArticle($event)">
+  </app-articles-container>
+  <app-article-detail class="col-8" *ngIf="selectedArticle; else welcome" [article]='selectedArticle'>
+  </app-article-detail>
+  <ng-template #welcome>
+    <div class="col-8 ">
+      <h2>Welcome to Dummy blog</h2>
+      <h3>Please select an article to read</h3>
+    </div>
+  </ng-template>
+</div>

@@ -1,0 +1,14 @@
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center pagination-sm">
+    <li class="page-item disabled" role="button" [ngClass]="{'disabled': isFirstPage}" (click)="onPreviousPage()">
+      <a class="page-link">Previous</a>
+    </li>
+    <li class="page-item" role="button" *ngFor="let page of pageNumbers" [ngClass]="{'active': page.isActive === true}"
+      (click)="setPage(page)">
+      <a class="page-link">{{page.pageNo}}</a>
+    </li>
+    <li class="page-item" role="button" [ngClass]="{'disabled': isLastPage}" (click)="onNextPage()">
+      <a class="page-link">Next</a>
+    </li>
+  </ul>
+</nav>

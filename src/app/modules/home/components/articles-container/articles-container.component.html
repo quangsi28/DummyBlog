@@ -1,0 +1,18 @@
+<ul class="articles-container list-unstyled overflow-auto" *ngIf="pagingArticles?.length > 0; else emptyList">
+  <li class="media px-3 py-3" role="button" *ngFor="let article of pagingArticles" (click)="onSelectArticle(article.id)"
+    [ngClass]="{'selected': selectedId === article.id}">
+    <img [src]="article.image" class="mr-3" alt="...">
+    <div class="media-body overflow-hidden">
+      <h5 class="mt-0 mb-1">{{article.title}}</h5>
+      <p class="text-truncate">{{article.content}}</p>
+    </div>
+  </li>
+</ul>
+<app-paging *ngIf="pagingArticles?.length > 0" [page]="currentPage" [pageSize]='10' [totalItem]="articles.length"
+  (pageChange)="onPageChanged($event)"></app-paging>
+
+<ng-template #emptyList>
+  <div class="articles-container list-unstyled overflow-auto">
+    Empty!!
+  </div>
+</ng-template>

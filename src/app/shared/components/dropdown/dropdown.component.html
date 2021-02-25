@@ -1,0 +1,10 @@
+<div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle"
+    [ngClass]="{'btn-secondary': style === 'default', 'btn-outline-secondary': style === 'outline'}" type="button"
+    id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    {{placeholder}}
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <ng-content></ng-content>
+  </div>
+</div>
