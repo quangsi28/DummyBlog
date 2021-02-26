@@ -17,11 +17,15 @@
       </app-dropdown>
     </div>
   </div>
-
 </div>
+
 <div class="d-flex flex-row flex-fill overflow-hidden">
-  <app-articles-container class="col" *ngIf="articles" [articles]="articles" (selectArticle)="onSelectArticle($event)">
-  </app-articles-container>
+  <div class="d-flex flex-column h-100 w-100 overflow-hidden border border-dark" *ngIf="articles">
+    <app-article-list class="d-flex flex-column h-100 overflow-hidden" [articles]="pagingArticles"
+      (selectArticle)="onSelectArticle($event)"></app-article-list>
+    <app-paging *ngIf="articles?.length > 0" [page]="currentPage" [pageSize]='10' [totalItem]="articles.length"
+      (pageChange)="onPageChanged($event)"></app-paging>
+  </div>
   <app-article-detail class="col-8" *ngIf="selectedArticle; else welcome" [article]='selectedArticle'>
   </app-article-detail>
   <ng-template #welcome>

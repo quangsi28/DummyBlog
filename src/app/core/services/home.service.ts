@@ -22,17 +22,17 @@ export class HomeService {
       );
     }
 
-    return this.httpClient.get<Article[]>(ApiEndpoints.ArticleList, {
+    return this.httpClient.get<Article[]>(ApiEndpoints.Articles, {
       params,
     });
   }
 
   getArticleDetail(articleId): Observable<Article> {
     if (!articleId) {
-      return;
+      return new Observable((obs) => obs.next(null));
     }
     return this.httpClient
-      .get<Article>(ApiEndpoints.ArticleList + '/' + articleId)
+      .get<Article>(ApiEndpoints.Articles + '/' + articleId)
       .pipe(
         map((res) => {
           return res;

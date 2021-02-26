@@ -1,33 +1,38 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Article } from 'src/app/core/models/articles.model';
 import { HomeService } from 'src/app/core/services/home.service';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
-import { fromEvent, Subject } from 'rxjs';
+import { fromEvent, Subject, Subscription } from 'rxjs';
+import { SortOptions, SearchOptions } from 'src/app/core/utils/constants';
 
 @Component({
   selector: 'app-homepage',
   templateUrl: './homepage.component.html',
   styleUrls: ['./homepage.component.scss'],
 })
-export class HomepageComponent implements OnInit, AfterViewInit {
+export class HomepageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('searchBox') searchBox;
+
   articles: Article[];
   selectedArticle;
-  order;
-  sortBy;
-  sortArticleOptions = [
-    { name: 'Title', value: 'title' },
-    { name: 'Created At', value: 'createAt' },
-  ];
-  searchArticleOptions = [
-    { name: 'Title', value: 'title' },
-    { name: 'Content', value: 'content' },
-    { name: 'Default', value: 'search' },
-  ];
+  sortArticleOptions = SortOptions;
+  searchArticleOptions = SearchOptions;
   selectedSortOption;
   selectedSearchOption;
   searchArticle$ = new Subject();
   keyword = '';
+  pageSize = 10;
+  currentPage = 1;
+  pagingArticles: Article[] = [];
+  selectedId;
+  subscriptions$: Subscription = new Subscription();
+
   constructor(private homeService: HomeService) {}
 
   ngOnInit() {
@@ -38,15 +43,20 @@ export class HomepageComponent implements OnInit, AfterViewInit {
     this.initSearchBox();
   }
 
-  onSelectArticle(articleId) {
-    if (!articleId) {
+  ngOnDestroy() {
+    this.subscriptions$.unsubscribe();
+  }
+
+  onSelectArticle(article) {
+    if (!article) {
       return;
     }
-    this.homeService
-      .getArticleDetail(articleId)
+    const articleDetailSub = this.homeService
+      .getArticleDetail(article.id)
       .subscribe((detailRes: Article) => {
         this.selectedArticle = detailRes;
       }, console.error);
+    this.subscriptions$.add(articleDetailSub);
   }
 
   onSortArticle(event) {
@@ -62,18 +72,35 @@ export class HomepageComponent implements OnInit, AfterViewInit {
     this.getArticleList();
   }
 
+  onPageChanged(pageNo) {
+    this.currentPage = pageNo;
+    this.setCurrentPageData();
+  }
+
+  private setCurrentPageData() {
+    if ((this.currentPage - 1) * this.pageSize > this.articles.length) {
+      this.currentPage = 1;
+    }
+    this.pagingArticles = this.articles.slice(
+      this.pageSize * (this.currentPage - 1),
+      this.pageSize * (this.currentPage - 1) + this.pageSize
+    );
+  }
+
   private getArticleList() {
-    this.homeService
+    const articleListSub = this.homeService
       .getArticleList({
         sortBy: this.selectedSortOption?.value,
-        [this.selectedSearchOption?.value]: this.keyword,
+        [this.selectedSearchOption?.value || 'title']: this.keyword,
       })
       .subscribe((articlesRes) => {
         if (!articlesRes) {
           return;
         }
         this.articles = articlesRes;
+        this.setCurrentPageData();
       });
+    this.subscriptions$.add(articleListSub);
   }
 
   private initSearchBox() {

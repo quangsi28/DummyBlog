@@ -26,7 +26,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
     );
   }
 
-  handleApiErrors(error: HttpErrorResponse) {
+  private handleApiErrors(error: HttpErrorResponse) {
     switch (error.status) {
       case HttpCode.NotFound:
         alert('Server return not found');

@@ -1,7 +1,7 @@
 export interface Article {
-  id;
-  createdAt;
-  title;
-  image;
-  content;
+  id: number;
+  createdAt: string;
+  title: string;
+  image: string;
+  content: string;
 }
